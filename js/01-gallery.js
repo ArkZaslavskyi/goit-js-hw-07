@@ -8,6 +8,13 @@
  * 1. Создание и рендер разметки по массиву данных galleryItems и предоставленному шаблону элемента галереи.
  * 2. Реализация делегирования на div.gallery и получение url большого изображения.
  * 3. Подключение скрипта и стилей библиотеки модального окна basicLightbox. Используй CDN сервис jsdelivr и добавь в проект ссылки на минифицированные (.min) файлы библиотеки.
+ * 
+ * <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
+ * <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">
+ * 
+ * https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js
+ * https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css
+ * 
  * 4. Открытие модального окна по клику на элементе галереи. Для этого ознакомься с документацией и примерами.
  * 5. Замена значения атрибута src элемента <img> в модальном окне перед открытием. Используй готовую разметку модального окна с изображением из примеров библиотеки basicLightbox.
  * 
@@ -45,12 +52,27 @@ createGalery();
 galleryRef.addEventListener('click', (e) => onGalleryClk(e));
 // 
 
+// 
+
 function onGalleryClk(e) {
     e.preventDefault();
     
     if (e.target.dataset.source) {
         console.log(e.target.dataset.source);
-    }
+    };
+
+    const instance = basicLightbox.create(`
+    	<img src="${e.target.dataset.source}" width="800" height="600">
+    `);
+    instance.show();
+    window.addEventListener('keydown', e => onEscPress(e, instance));
+};
+
+function onEscPress(e, instance) {
+    if (e.code === 'Escape') {
+        instance.close();
+        window.removeEventListener('keydown', onEscPress);
+    };
 };
 
 // 
