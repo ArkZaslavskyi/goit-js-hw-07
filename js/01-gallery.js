@@ -49,10 +49,9 @@ console.log(galleryItems);
 const galleryRef = document.querySelector('.gallery');
 createGalery();
 
+// 
 galleryRef.addEventListener('click', (e) => onGalleryClk(e));
-// 
 
-// 
 
 function onGalleryClk(e) {
     e.preventDefault();
