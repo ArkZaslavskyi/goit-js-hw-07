@@ -56,9 +56,7 @@ galleryRef.addEventListener('click', (e) => onGalleryClk(e));
 function onGalleryClk(e) {
     e.preventDefault();
     
-    if (e.target.dataset.source) {
-        console.log(e.target.dataset.source);
-    };
+    if (!e.target.dataset.source) return;
 
     const instance = basicLightbox.create(`
     	<img src="${e.target.dataset.source}" width="800" height="600">
@@ -68,8 +66,10 @@ function onGalleryClk(e) {
 };
 
 function onEscPress(e, instance) {
+    console.log(e.code);
     if (e.code === 'Escape') {
         instance.close();
+        console.log('ESC Сработал');
         window.removeEventListener('keydown', onEscPress);
     };
 };
