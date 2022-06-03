@@ -47,36 +47,45 @@ console.log(galleryItems);
 
 // 
 const galleryRef = document.querySelector('.gallery');
-createGalery();
+createGallery();
 
 // 
 galleryRef.addEventListener('click', (e) => onGalleryClk(e));
 
+const instanceOptions = {
+    onShow: (instance) => {
+        document.addEventListener('keyup', onKeyPress);
+    },
+    onClose: (instance) => { 
+        document.removeEventListener('keyup', onKeyPress);
+    },
+};
+
+let instance = {}; 
 
 function onGalleryClk(e) {
     e.preventDefault();
     
     if (!e.target.dataset.source) return;
-
-    const instance = basicLightbox.create(`
-    	<img src="${e.target.dataset.source}" width="800" height="600">
-    `);
+    
+    instance = basicLightbox.create(`
+            <img src="${e.target.dataset.source}" width="800" height="600">
+        `, instanceOptions);
     instance.show();
-    window.addEventListener('keydown', e => onEscPress(e, instance));
+
 };
 
-function onEscPress(e, instance) {
-    console.log(e.code);
+function onKeyPress(e) {
+    console.log('onKeyPress started');
+
     if (e.code === 'Escape') {
         instance.close();
-        console.log('ESC Сработал');
-        window.removeEventListener('keydown', onEscPress);
+        // document.removeEventListener('keyup', onKeyPress);
     };
-};
-
+}
 // 
-function createGalery() {
-    const galleryMarkup = galleryItems.map(item => createGaleryItemMarkup(item)).join("");
+function createGallery() {
+    const galleryMarkup = galleryItems.map(createGaleryItemMarkup).join("");
 
     galleryRef.insertAdjacentHTML('afterbegin', galleryMarkup);
 }
