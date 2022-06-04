@@ -52,22 +52,22 @@ createGallery();
 // 
 galleryRef.addEventListener('click', (e) => onGalleryClk(e));
 
-const instanceOptions = {
-    onShow: (instance) => {
-        document.addEventListener('keyup', onKeyPress);
-    },
-    onClose: (instance) => { 
-        document.removeEventListener('keyup', onKeyPress);
-    },
-};
-
-let instance = {}; 
+let instance = {};
 
 function onGalleryClk(e) {
     e.preventDefault();
     
     if (!e.target.dataset.source) return;
-    
+
+    const instanceOptions = {
+        onShow: (instance) => {
+            document.addEventListener('keyup', onKeyPress);
+        },
+        onClose: (instance) => { 
+            document.removeEventListener('keyup', onKeyPress);
+        },
+    };
+
     instance = basicLightbox.create(`
             <img src="${e.target.dataset.source}" width="800" height="600">
         `, instanceOptions);
@@ -76,13 +76,15 @@ function onGalleryClk(e) {
 };
 
 function onKeyPress(e) {
-    console.log('onKeyPress started');
-
-    if (e.code === 'Escape') {
-        instance.close();
-        // document.removeEventListener('keyup', onKeyPress);
-    };
+    console.log('onKeyPress: started');
+    console.log('e :', e);
+    console.log('instance :', instance);
+    console.log('this :', this);
+    
+    if (e.code === 'Escape') { instance.close(); };
 }
+
+
 // 
 function createGallery() {
     const galleryMarkup = galleryItems.map(createGaleryItemMarkup).join("");
