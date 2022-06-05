@@ -77,9 +77,7 @@ function onGalleryClk(e) {
 
 function onKeyPress(e) {
     console.log('onKeyPress: started');
-    console.log('e :', e);
-    console.log('instance :', instance);
-    console.log('this :', this);
+    console.log('code :', e.code);
     
     if (e.code === 'Escape') { instance.close(); };
 }
